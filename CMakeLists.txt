@@ -55,13 +55,5 @@ endif()
 ## Build ##
 ###########
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS})
 
-add_library(pathPlanner src/gridSquare.cpp src/pathPlanner.cpp)
-target_link_libraries(pathPlanner ${catkin_LIBRARIES})
-
-add_executable(goal src/goal.cpp)
-target_link_libraries(goal ${catkin_LIBRARIES})
-
-add_executable(navigate src/main.cpp src/navigateRobot.cpp)
-target_link_libraries(navigate ${catkin_LIBRARIES})
