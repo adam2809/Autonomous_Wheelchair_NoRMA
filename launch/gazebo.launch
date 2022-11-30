@@ -17,9 +17,9 @@
     name="robot_description"
     textfile="$(find autonomous_wheelchair)/urdf/autonomous_wheelchair.urdf" />
   <node
-    name="fake_joint_calibration"
-    pkg="rostopic"
-    type="rostopic"
-    args="pub /calibrated std_msgs/Bool true" />
+    name="teleop"
+    pkg="teleop_twist_keyboard"
+    type="teleop_twist_keyboard.py"
+  />
 
 </launch>
