@@ -20,6 +20,7 @@
     name="teleop"
     pkg="teleop_twist_keyboard"
     type="teleop_twist_keyboard.py"
+    args="cmd_vel:=my_cmd_vel"
   />
 
 </launch>
