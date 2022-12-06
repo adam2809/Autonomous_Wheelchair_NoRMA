@@ -8,8 +8,6 @@ from geometry_msgs.msg import Twist
 joy = []
 MAX_JOY_VAL = 1
 MIN_JOY_VAL = -1
-MAX_CMD_VEL_VAL = 0.5
-MIN_CMD_VEL_VAL = -0.5
 
 class GazeboJoystickDriver():
     def __init__(self):
@@ -42,16 +40,17 @@ class GazeboJoystickDriver():
         axis_name_mapping = ['x','y','t']
         if e.type == pygame.JOYAXISMOTION:
             axis_i = e.dict['axis']
-            cmd_vel_val = self.scale_joy_val_to_cmd_vel(e.dict['value'])
             if axis_i == 0:
-                self.twist.angular.z = cmd_vel_val
+                self.twist.angular.z = self.scale_joy_val_to_cmd_vel(e.dict['value'],0.75)
             if axis_i == 1:
-                self.twist.linear.x = cmd_vel_val
+                self.twist.linear.x = self.scale_joy_val_to_cmd_vel(e.dict['value'],1.2)
             rospy.loginfo("%s | %f" % (axis_name_mapping[axis_i], e.dict['value']))
             self.cmd_vel_pub.publish(self.twist)
 
-    def scale_joy_val_to_cmd_vel(self,joy_val):
-        return -(((joy_val - MIN_JOY_VAL) / (MAX_JOY_VAL - MIN_JOY_VAL) ) * (MAX_CMD_VEL_VAL - MIN_CMD_VEL_VAL) + MIN_CMD_VEL_VAL)
+    def scale_joy_val_to_cmd_vel(self,joy_val,max_abs_cmd_vel):
+        MAX_CMD_VEL_VAL = max_abs_cmd_vel
+        MIN_CMD_VEL_VAL = -max_abs_cmd_vel
+        return -(((joy_val - MIN_JOY_VAL) / (MAX_JOY_VAL - MIN_JOY_VAL) ) * (MAX_CMD_VEL_VAL - MIN_CMD_VEL_VAL) + MIN_CMD_VEL_VAL) 
 
 
 
